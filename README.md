@@ -333,7 +333,7 @@ Kita ping ke Jipangu secara bersamaan,
 
 #### Elena
 Pada saat yang ke-4 mengakses node yang sama, maka ditolak
-![messageImage_1639067260886](https://user-images.githubusercontent.com/36225278/145458143-419dfc1d-cfa4-467e-81d1-0cec439156a9.jpg)
+![messageImage_1639067251507](https://user-images.githubusercontent.com/36225278/145460468-d2eef565-ba96-4c46-bab7-596b08ed6f20.jpg)
 
 ## (4) Kemudian kalian diminta untuk membatasi akses ke Doriki yang berasal dari subnet Blueno, Cipher, Elena dan Fukuro dengan beraturan sebagai berikut :Akses dari subnet Blueno dan Cipher hanya diperbolehkan pada pukul 07.00 - 15.00 pada hari Senin sampai Kamis.
 
