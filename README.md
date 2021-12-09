@@ -206,7 +206,7 @@ route add -net 192.173.0.16 netmask 255.255.255.248 gw 192.173.0.2
 4. Buka `file /etc/default/isc-dhcp-relay` dan edit server dengan mengarahkan dchp-relay menuju Jipangu `192.173.0.19` lalu `service isc-dhcp-relay restart` pada foosha, water7, dan guanhao
 ```
 echo '# What servers should the DHCP relay forward requests to?
-SERVERS="192.186.0.19"
+SERVERS="192.173.0.19"
 
 # On what interfaces should the DHCP relay (dhrelay) serve DHCP requests?
 INTERFACES=""
@@ -218,39 +218,39 @@ OPTIONS="" '> /etc/default/isc-dhcp-relay
 `INTERFACES="eth0"`
 6. Pada dhcp-server isikan data pada `/etc/dhcp/dhcpd.conf` di Jipangu, lalu lakukan `service isc-dhcp-server restart`
 ```
-subnet 192.186.1.0 netmask 255.255.255.0 {
-    range 192.186.1.2 192.186.1.254;
-    option routers 192.186.1.1;
-    option broadcast-address 192.186.1.255;
-    option domain-name-servers 192.186.0.18;
+subnet 192.173.1.0 netmask 255.255.255.0 {
+    range 192.173.1.2 192.173.1.254;
+    option routers 192.173.1.1;
+    option broadcast-address 192.173.1.255;
+    option domain-name-servers 192.173.0.18;
     default-lease-time 600;
     max-lease-time 7200;
 }
-subnet 192.186.0.128 netmask 255.255.255.128 {
-    range 192.186.0.130 192.186.0.254;
-    option routers 192.186.0.129;
-    option broadcast-address 192.186.0.255;
-    option domain-name-servers 192.186.0.18;
+subnet 192.173.0.128 netmask 255.255.255.128 {
+    range 192.173.0.130 192.173.0.254;
+    option routers 192.173.0.129;
+    option broadcast-address 192.173.0.255;
+    option domain-name-servers 192.173.0.18;
     default-lease-time 600;
     max-lease-time 7200;
 }
-subnet 192.186.4.0 netmask 255.255.252.0 {
-    range 192.186.4.2 192.186.4.254;
-    option routers 192.186.4.1;
-    option broadcast-address 192.186.4.255;
-    option domain-name-servers 192.186.0.18;
+subnet 192.173.4.0 netmask 255.255.252.0 {
+    range 192.173.4.2 192.173.4.254;
+    option routers 192.173.4.1;
+    option broadcast-address 192.173.4.255;
+    option domain-name-servers 192.173.0.18;
     default-lease-time 600;
     max-lease-time 7200;
 }
-subnet 192.186.2.0 netmask 255.255.254.0 {
-    range 192.186.2.2 192.186.2.254;
-    option routers 192.186.2.1;
-    option broadcast-address 192.186.2.255;
-    option domain-name-servers 192.186.0.18;
+subnet 192.173.2.0 netmask 255.255.254.0 {
+    range 192.173.2.2 192.173.2.254;
+    option routers 192.173.2.1;
+    option broadcast-address 192.173.2.255;
+    option domain-name-servers 192.173.0.18;
     default-lease-time 600;
     max-lease-time 7200;
 }
-subnet 192.186.0.16 netmask 255.255.255.248{
+subnet 192.173.0.16 netmask 255.255.255.248{
 }
 ```
 7. Buka file `/etc/network/interfaces`. Command konfigurasi lama (static) dan ubah ip Blueno, Cipher, Fukurou, dan Elena dengan command
@@ -260,7 +260,7 @@ subnet 192.186.0.16 netmask 255.255.255.248{
 
 #### Foosha 
 
-Command yang digunakan `iptables -t nat -A POSTROUTING -s 192.186.0.0/16 -o eth0 -j SNAT --to-s` (ip eth0) yang menyesuaikan dari eth0 tersebut
+Command yang digunakan `iptables -t nat -A POSTROUTING -s 192.173.0.0/16 -o eth0 -j SNAT --to-s` (ip eth0) yang menyesuaikan dari eth0 tersebut
 
 Lalu, pada semua node yang terkait dilakukan echo nameserver `192.168.122.1 > /etc/resolv.conf`
 
@@ -272,13 +272,13 @@ Keterangan:
 ## (2) Kalian diminta untuk mendrop semua akses HTTP dari luar Topologi kalian pada server yang memiliki ip DHCP dan DNS Server demi menjaga keamanan.
 #### Foosha
 
-Command yang digunakan yaitu `iptables -A FORWARD -p tcp --dport 80 -d 192.186.0.16/29 -i eth0 -j DROP`
+Command yang digunakan yaitu `iptables -A FORWARD -p tcp --dport 80 -d 192.173.0.16/29 -i eth0 -j DROP`
 
 Keterangan:
 - `A FORWARD:` Menggunakan chain FORWARD
 - `p tcp:` Mendefinisikan protokol yang digunakan, yaitu tcp
 - `dport 80:` Mendefinisikan port yang digunakan, yaitu 80 (HTTP)
-- `d 192.186.0.16/29:` Mendefinisikan alamat tujuan dari paket (DHCP dan DNS SERVER ) berada pada subnet 192.186.0.16/29
+- `d 192.173.0.16/29:` Mendefinisikan alamat tujuan dari paket (DHCP dan DNS SERVER ) berada pada subnet 192.173.0.16/29
 - `i eth0:` Paket masuk dari eth0 Foosha
 - `j DROP:` Paket di-drop
 
@@ -312,14 +312,14 @@ Lalu, ping ke arah Jipangu secara bersamaan.
 
 #### Doriki
 ```
-iptables -A INPUT -s 192.186.0.128/25 -m time --timestart 07:00 --timestop 15:00 --weekdays Mon,Tue,Wed,Thu -j ACCEPT
-iptables -A INPUT -s 192.186.0.128/25 -j REJECT
+iptables -A INPUT -s 192.173.0.128/25 -m time --timestart 07:00 --timestop 15:00 --weekdays Mon,Tue,Wed,Thu -j ACCEPT
+iptables -A INPUT -s 192.173.0.128/25 -j REJECT
 ```
 
 #### Chiper
 ```
-iptables -A INPUT -s 192.186.4.0/22 -m time --timestart 07:00 --timestop 15:00 --weekdays Mon,Tue,Wed,Thu -j ACCEPT
-iptables -A INPUT -s 192.186.4.0/22 -j REJECT
+iptables -A INPUT -s 192.173.4.0/22 -m time --timestart 07:00 --timestop 15:00 --weekdays Mon,Tue,Wed,Thu -j ACCEPT
+iptables -A INPUT -s 192.173.4.0/22 -j REJECT
 ```
 
 Keterangan:
@@ -340,15 +340,15 @@ Keterangan:
 
 #### Doriki 
 Untuk paket yang berasal dari ELENA menggunakan perintah:
-`iptables -A INPUT -s 192.186.2.0/23 -m time --timestart 07:00 --timestop 15:00 -j REJECT`
+`iptables -A INPUT -s 192.173.2.0/23 -m time --timestart 07:00 --timestop 15:00 -j REJECT`
 Untuk paket yang berasal dari FUKUROU menggunakan perintah:
-`iptables -A INPUT -s 192.186.1.0/24 -m time --timestart 07:00 --timestop 15:00 -j REJECT`
+`iptables -A INPUT -s 192.173.1.0/24 -m time --timestart 07:00 --timestop 15:00 -j REJECT`
 
 Keterangan:
 
 - `A INPUT :` Menggunakan chain INPUT
-- `s 192.186.2.0/23 :` Mendifinisikan alamat asal dari paket yaitu IP dari subnet Elena
-- `s 192.186.1.0/24 :` Mendifinisikan alamat asal dari paket yaitu IP dari subnet Fukurou
+- `s 192.173.2.0/23 :` Mendifinisikan alamat asal dari paket yaitu IP dari subnet Elena
+- `s 192.173.1.0/24 :` Mendifinisikan alamat asal dari paket yaitu IP dari subnet Fukurou
 - `m time :` Menggunakan rule time
 - `timestart 07:00 :` Mendefinisikan waktu mulai yaitu 07:00
 - `timestop 15:00 :` Mendefinisikan waktu berhenti yaitu 15:00
@@ -399,7 +399,7 @@ iptables -t nat -A POSTROUTING -p tcp -d 192.173.0.27 --dport 80 -j SNAT --to-so
 - Pada Guanhao, Jorge, Maingate Elena dan fukurou `install apt-get install netcat`
 - Pada Jorge ketikkan perintah: `nc -l -p 80`
 - Pada Maingate ketikkan perintah: `nc -l -p 80`
-- Pada client Elena dan fukurou ketikkan perintah: `nc 192.186.8.1 80`
+- Pada client Elena dan fukurou ketikkan perintah: `nc 192.173.8.1 80`
 - Ketikkan sembarang pada client Elena dan fukurou, nanti akan muncul bergantian
 
 ### Kendala:
