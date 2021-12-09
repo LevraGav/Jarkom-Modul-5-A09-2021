@@ -335,3 +335,76 @@ Keterangan:
 - `j REJECT :` Paket ditolak
 
 ### Testing
+
+## (5) Akses dari subnet Elena dan Fukuro hanya diperbolehkan pada pukul 15.01 hingga pukul 06.59 setiap harinya.Selain itu di reject
+
+#### Doriki 
+Untuk paket yang berasal dari ELENA menggunakan perintah:
+`iptables -A INPUT -s 192.186.2.0/23 -m time --timestart 07:00 --timestop 15:00 -j REJECT`
+Untuk paket yang berasal dari FUKUROU menggunakan perintah:
+`iptables -A INPUT -s 192.186.1.0/24 -m time --timestart 07:00 --timestop 15:00 -j REJECT`
+
+Keterangan:
+
+- `A INPUT :` Menggunakan chain INPUT
+- `s 192.186.2.0/23 :` Mendifinisikan alamat asal dari paket yaitu IP dari subnet Elena
+- `s 192.186.1.0/24 :` Mendifinisikan alamat asal dari paket yaitu IP dari subnet Fukurou
+- `m time :` Menggunakan rule time
+- `timestart 07:00 :` Mendefinisikan waktu mulai yaitu 07:00
+- `timestop 15:00 :` Mendefinisikan waktu berhenti yaitu 15:00
+- `j REJECT :` Paket ditolak
+
+## (6) Karena kita memiliki 2 Web Server, Luffy ingin Guanhao disetting sehingga setiap request dari client yang mengakses DNS Server akan didistribusikan secara bergantian pada Jorge dan Maingate
+
+#### Doriki
+- Membuat domain (DNS) yang mengarah ke IP random pada file `/etc/bind/named.conf`
+```
+zone "jarkomA09.com" {
+        type master;
+        file "/etc/bind/jarkom/jarkomA09.com";
+};
+```
+- Buat folder jarkom dengan command:
+`mkdir /etc/bind/jarkom`
+- Copy `db.local` ke file `/etc/bind/jarkom/jarkomA09.com`
+```
+cp /etc/bind/db.local /etc/bind/jarkom/jarkomA09.com
+```
+
+- Edit file `/etc/bind/jarkom/jarkomA09.com`
+```
+$TTL    604800
+@       IN      SOA     jarkomA09.com. root.jarkomA09.com. (
+                        2021120705      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      jarkomA09.com.
+@       IN      A       192.173.8.1
+```
+
+#### Guanhao
+
+Masukkan perintah:
+```
+iptables -A PREROUTING -t nat -p tcp -d 192.173.8.1 --dport 80 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 192.173.0.26:80
+iptables -A PREROUTING -t nat -p tcp -d 192.173.8.1 --dport 80 -j DNAT --to-destination 192.173.0.27:80
+iptables -t nat -A POSTROUTING -p tcp -d 192.173.0.26 --dport 80 -j SNAT --to-source 192.173.8.1:80
+iptables -t nat -A POSTROUTING -p tcp -d 192.173.0.27 --dport 80 -j SNAT --to-source 192.173.8.1:80
+```
+
+#### Testing
+- Pada Guanhao, Jorge, Maingate Elena dan fukurou `install apt-get install netcat`
+- Pada Jorge ketikkan perintah: `nc -l -p 80`
+- Pada Maingate ketikkan perintah: `nc -l -p 80`
+- Pada client Elena dan fukurou ketikkan perintah: `nc 192.186.8.1 80`
+- Ketikkan sembarang pada client Elena dan fukurou, nanti akan muncul bergantian
+
+### Kendala:
+
+- Kendala pada jaringan internet sehingga restart node dan menjalankan ulang scriptnya
+- Nomer 1 ketika mencari IP nat pada source sempat kesulitan
+- Nomer 2 masih bingung ketika di bash, output port 80 udah filtered tapi ketika di jalankan kembali outputnya open
+- Nomer 3 pada saat 4 node secara bersamaan semua ping menuju doriki atau jipangu mati
