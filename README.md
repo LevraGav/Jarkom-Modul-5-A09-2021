@@ -390,10 +390,10 @@ Keterangan:
 ### Testing
 
 Saat pukul 15.01 - 06.59
-![messageImage_1639067956156](https://user-images.githubusercontent.com/36225278/145459126-7f6c8580-cef2-43fd-9aa4-013d59dc0ed4.jpg)
+![messageImage_1639067928444](https://user-images.githubusercontent.com/36225278/145459102-2c77d50d-8343-4a0b-9601-ce775f9c8dc1.jpg)
 
 Saat selain pukul 15.01 - 06.59
-![messageImage_1639067928444](https://user-images.githubusercontent.com/36225278/145459102-2c77d50d-8343-4a0b-9601-ce775f9c8dc1.jpg)
+![messageImage_1639067956156](https://user-images.githubusercontent.com/36225278/145459126-7f6c8580-cef2-43fd-9aa4-013d59dc0ed4.jpg)
 
 
 ## (6) Karena kita memiliki 2 Web Server, Luffy ingin Guanhao disetting sehingga setiap request dari client yang mengakses DNS Server akan didistribusikan secara bergantian pada Jorge dan Maingate
