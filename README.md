@@ -288,6 +288,17 @@ Keterangan:
 2. Pada Jipangu dan Doriki ketikkan: `nc -l -p 80`
 3. Pada foosha ketikkan: `nmap -p 80 192.173.0.19` atau `nmap -p 80 192.173.0.18`
 
+#### Foosha
+![messageImage_1638870785918](https://user-images.githubusercontent.com/36225278/145457234-60fba7a4-1356-40eb-a32d-3ecc7e16ae2c.jpg)
+![image](https://user-images.githubusercontent.com/36225278/145457134-3c68dcd0-8aeb-47c0-9929-7764e5f8b122.png)
+
+#### Doriki
+![messageImage_1638870718188](https://user-images.githubusercontent.com/36225278/145457706-c64452ac-463f-40f5-95e0-00dfa6cf0235.jpg)
+
+#### Jipangu
+![messageImage_1638870734466](https://user-images.githubusercontent.com/36225278/145457665-ed2a9e32-b39d-4720-993a-b76fb1173d4d.jpg)
+
+
 ## (3) Karena kelompok kalian maksimal terdiri dari 3 orang. Luffy meminta kalian untuk membatasi DHCP dan DNS Server hanya boleh menerima maksimal 3 koneksi ICMP secara bersamaan menggunakan iptables, selebihnya didrop.
 
 #### Jipangu dan Doriki
@@ -307,6 +318,22 @@ Keterangan:
 
 Lalu untuk mengecek bisa dilakukan dengan masuk ke 4 node berbeda
 Lalu, ping ke arah Jipangu secara bersamaan.
+
+### Testing
+Kita ping ke Jipangu secara bersamaan,
+
+#### Foosha
+![messageImage_1639067277163](https://user-images.githubusercontent.com/36225278/145457931-6bf1e091-1289-4c70-9aaf-b8ff0afd3ad9.jpg)
+
+#### Fukurou
+![messageImage_1639067269426](https://user-images.githubusercontent.com/36225278/145457991-3888f300-a6f9-4269-8d3e-042a2e2bda36.jpg)
+
+#### Maingate
+![messageImage_1639067260886](https://user-images.githubusercontent.com/36225278/145458046-527e03e9-38db-46f8-8bde-3ce72c92f43f.jpg)
+
+#### Elena
+Pada saat yang ke-4 mengakses node yang sama, maka ditolak
+![messageImage_1639067260886](https://user-images.githubusercontent.com/36225278/145458143-419dfc1d-cfa4-467e-81d1-0cec439156a9.jpg)
 
 ## (4) Kemudian kalian diminta untuk membatasi akses ke Doriki yang berasal dari subnet Blueno, Cipher, Elena dan Fukuro dengan beraturan sebagai berikut :Akses dari subnet Blueno dan Cipher hanya diperbolehkan pada pukul 07.00 - 15.00 pada hari Senin sampai Kamis.
 
@@ -336,6 +363,12 @@ Keterangan:
 
 ### Testing
 
+Saat Hari Senin - Kamis antara jam 07.00 - 15.00
+![image](https://user-images.githubusercontent.com/36225278/145458400-03be2876-9647-46f6-87bd-c6b633e8e613.png)
+
+Saat Hari Senin - Kamis selain jam 07.00 - 15.00
+![image](https://user-images.githubusercontent.com/36225278/145458662-d1c9658d-eb8a-4ac0-a60a-ede0820beef4.png)
+
 ## (5) Akses dari subnet Elena dan Fukuro hanya diperbolehkan pada pukul 15.01 hingga pukul 06.59 setiap harinya.Selain itu di reject
 
 #### Doriki 
@@ -353,6 +386,15 @@ Keterangan:
 - `timestart 07:00 :` Mendefinisikan waktu mulai yaitu 07:00
 - `timestop 15:00 :` Mendefinisikan waktu berhenti yaitu 15:00
 - `j REJECT :` Paket ditolak
+
+### Testing
+
+Saat pukul 15.01 - 06.59
+![messageImage_1639067956156](https://user-images.githubusercontent.com/36225278/145459126-7f6c8580-cef2-43fd-9aa4-013d59dc0ed4.jpg)
+
+Saat selain pukul 15.01 - 06.59
+![messageImage_1639067928444](https://user-images.githubusercontent.com/36225278/145459102-2c77d50d-8343-4a0b-9601-ce775f9c8dc1.jpg)
+
 
 ## (6) Karena kita memiliki 2 Web Server, Luffy ingin Guanhao disetting sehingga setiap request dari client yang mengakses DNS Server akan didistribusikan secara bergantian pada Jorge dan Maingate
 
@@ -402,9 +444,21 @@ iptables -t nat -A POSTROUTING -p tcp -d 192.173.0.27 --dport 80 -j SNAT --to-so
 - Pada client Elena dan fukurou ketikkan perintah: `nc 192.173.8.1 80`
 - Ketikkan sembarang pada client Elena dan fukurou, nanti akan muncul bergantian
 
+#### Elena
+![image](https://user-images.githubusercontent.com/36225278/145459790-e52782dd-2221-49c9-97f3-aaf70450f7f7.png)
+
+#### Fukurou
+![image](https://user-images.githubusercontent.com/36225278/145459760-954a3319-12bd-40e0-aeb1-5070a4b09321.png)
+
+#### Jorge
+![image](https://user-images.githubusercontent.com/36225278/145459805-5b2e2973-1f1d-4e39-bda4-524b4a5771ee.png)
+
+#### Maingate
+![image](https://user-images.githubusercontent.com/36225278/145459822-0646a6fd-46f8-4474-9463-857ae8d6459e.png)
+
 ### Kendala:
 
 - Kendala pada jaringan internet sehingga restart node dan menjalankan ulang scriptnya
-- Nomer 1 ketika mencari IP nat pada source sempat kesulitan
-- Nomer 2 masih bingung ketika di bash, output port 80 udah filtered tapi ketika di jalankan kembali outputnya open
-- Nomer 3 pada saat 4 node secara bersamaan semua ping menuju doriki atau jipangu mati
+- Nomor 1 ketika mencari IP nat pada source sempat kesulitan
+- Nomor 2 masih bingung ketika di bash, output port 80 udah filtered tapi ketika di jalankan kembali outputnya open
+- Nomor 3 pada saat 4 node secara bersamaan semua ping menuju doriki atau jipangu mati
