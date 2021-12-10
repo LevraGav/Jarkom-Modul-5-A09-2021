@@ -460,6 +460,7 @@ iptables -t nat -A POSTROUTING -p tcp -d 192.173.0.27 --dport 80 -j SNAT --to-so
 ### Kendala:
 
 - Kendala pada jaringan internet sehingga restart node dan menjalankan ulang scriptnya
-- Nomor 1 ketika mencari IP nat pada source sempat kesulitan
+- Nomor 1 ketika mencari IP nat pada source sempat kesulitan dan vlsm juga masih kagok
 - Nomor 2 masih bingung ketika di bash, output port 80 udah filtered tapi ketika di jalankan kembali outputnya open
 - Nomor 3 pada saat 4 node secara bersamaan semua ping menuju doriki atau jipangu mati
+- Nomor 6 bingung ketika testingnya awal" karena masih awam
