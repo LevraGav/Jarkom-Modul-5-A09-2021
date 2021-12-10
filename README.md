@@ -17,6 +17,7 @@ Vincent Yonathan | 05111940000186
 ![image](https://user-images.githubusercontent.com/36225278/145450611-e5eba9ff-86a6-4e07-92df-419c056d3e67.png)
 
 ### Tree :
+![modul5 drawio](https://user-images.githubusercontent.com/36225278/145531452-3c5e149a-1517-4688-803e-751bac83f606.png)
 
 ### Pembagian IP :
 ### 1. Jumlah Alamat IP
