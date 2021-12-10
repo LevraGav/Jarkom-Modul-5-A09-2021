@@ -33,7 +33,7 @@ Subnet serta jumlah IP untuk mendapatkan netmask dari tiap subnet ditunjukkan ol
 | A6  | 701 | /22 | 255.255.252.0	 | 192.173.4.0 |
 | A7  | 4 | /29 | 255.255.255.248 | 192.173.0.16 |
 | A8  | 4 | /29 | 255.255.255.248 | 192.173.0.24 |
-| Total  | 5841 | /21 | 255.255.248.0 | - |
+| Total  | 1361 | /21 | 255.255.248.0 | - |
 
 SETTING INTERFACE PADA GNS3
 
