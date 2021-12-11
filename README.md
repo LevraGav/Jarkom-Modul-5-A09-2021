@@ -9,6 +9,7 @@ Johnivan Aldo Sudiono | 05111940000051
 Vincent Yonathan | 05111940000186
 
 ## Soal Jarkom-Modul-5 2021
+- [Soal](https://docs.google.com/document/d/1Sc2jTlqmyM149yi4QzOGijyjPmSeEoy14Ajg9MnmkuY/edit)
 
 ### (A) Tugas pertama kalian yaitu membuat topologi jaringan sesuai dengan rancangan yang diberikan Luffy dibawah ini:
 ![image](https://user-images.githubusercontent.com/36225278/145450558-89f3512b-93e2-4559-9382-a26b1a5b8dcd.png)
